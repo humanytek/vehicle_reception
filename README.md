@@ -1,3 +1,3 @@
 Vehicle Reception
 =================
-TODO [IMP]
+Vehicle reception, use with a vehicle instance

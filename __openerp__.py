@@ -3,10 +3,9 @@
     'version': '1.0',
     'author': 'Humanytek',
     'website': 'http://humanytek.com',
-    'depends': [],  # TODO [IMP]
+    'depends': ['purchase_contract_type', 'vehicle'],
     'data': [
         'security/ir.model.access.csv',
-        'security/vehicle_reception_access_rules.xml',
         'views/vehicle_reception.xml',
     ]
 }
