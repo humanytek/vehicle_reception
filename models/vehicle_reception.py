@@ -52,7 +52,7 @@ class VehicleReception(models.AbstractModel):
             if self.clean_kilos / 1000 <= self.hired:
                 self._do_enter_transfer_details(picking, self.stock_picking_id, self.clean_kilos, self.location_id)
             else:
-                self._do_enter_transfer_details(picking, self.stock_picking_id, self.hired, self.location_id)
+                self._do_enter_transfer_details(picking, self.stock_picking_id, self.hired * 1000, self.location_id)
                 self.auxiliary_contract = self.env['purchase.order'].create({'partner_id': self.contract_id.partner_id.id,
                                                                              'location_id': self.contract_id.location_id.id,
                                                                              'pricelist_id': self.contract_id.pricelist_id.id})
