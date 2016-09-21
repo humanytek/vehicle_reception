@@ -56,6 +56,7 @@ class VehicleReception(models.AbstractModel):
                 self.auxiliary_contract = self.env['purchase.order'].create({'partner_id': self.contract_id.partner_id.id,
                                                                              'location_id': self.contract_id.location_id.id,
                                                                              'pricelist_id': self.contract_id.pricelist_id.id})
+                self.auxiliary_contract.contract_type = 'surplus'
                 self.auxiliary_contract.order_line = self.env['purchase.order.line'].create({
                     'order_id': self.auxiliary_contract.id,
                     'product_id': self.contract_id.order_line[0].product_id.id,
