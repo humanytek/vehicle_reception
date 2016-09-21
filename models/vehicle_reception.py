@@ -49,10 +49,10 @@ class VehicleReception(models.AbstractModel):
         self.stock_picking_id = self.env['stock.picking'].search([('origin', '=', self.contract_id.name), ('state', '=', 'assigned')], order='date', limit=1)
         if self.stock_picking_id:
             picking = [self.stock_picking_id.id]
-            if self.clean_kilos / 1000 <= self.hired:
+            if self.delivered < self.hired:
                 self._do_enter_transfer_details(picking, self.stock_picking_id, self.clean_kilos, self.location_id)
             else:
-                self._do_enter_transfer_details(picking, self.stock_picking_id, self.hired * 1000, self.location_id)
+                self._do_enter_transfer_details(picking, self.stock_picking_id, self.clean_kilos + self.pending * 1000 , self.location_id)
                 self.auxiliary_contract = self.env['purchase.order'].create({'partner_id': self.contract_id.partner_id.id,
                                                                              'location_id': self.contract_id.location_id.id,
                                                                              'pricelist_id': self.contract_id.pricelist_id.id})
@@ -62,8 +62,9 @@ class VehicleReception(models.AbstractModel):
                     'name': self.contract_id.order_line[0].name,
                     'date_planned': self.contract_id.order_line[0].date_planned,
                     'company_id': self.contract_id.order_line[0].company_id.id,
-                    'product_qty': (self.clean_kilos/1000 - self.hired),
+                    'product_qty': (-self.pending),
                     'price_unit': self.contract_id.order_line[0].price_unit,
+                    'product_uom': self.contract_id.order_line[0].product_uom.id,
                 })
                 self.fun_ship()
 
