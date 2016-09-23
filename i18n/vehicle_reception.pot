@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* vehicle_reception
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-23 16:54+0000\n"
+"PO-Revision-Date: 2016-09-23 16:54+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: vehicle_reception
+#: field:vehicle.reception,auxiliary_contract:0
+msgid "Auxiliary contract"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,contract_id:0
+msgid "Contract id"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,contract_type:0
+msgid "Contract type"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,damaged_location:0
+msgid "Damaged location"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,delivered:0
+msgid "Delivered"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,location_id:0
+msgid "Destination"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,hired:0
+msgid "Hired"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,id:0
+msgid "ID"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,pending:0
+msgid "Pending"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,product_id:0
+msgid "Product id"
+msgstr ""
+
+#. module: vehicle_reception
+#: model:ir.ui.menu,name:vehicle_reception.menu_receptions
+msgid "Receptions"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,contract_state:0
+msgid "Status"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,street:0
+msgid "Street"
+msgstr ""
+
+#. module: vehicle_reception
+#: field:vehicle.reception,partner_id:0
+msgid "Supplier"
+msgstr ""
+
+#. module: vehicle_reception
+#: help:vehicle.reception,contract_state:0
+msgid "The status of the purchase order or the quotation request. A request for quotation is a purchase order in a 'Draft' status. Then the order has to be confirmed by the user, the status switch to 'Confirmed'. Then the supplier must confirm the order to change the status to 'Approved'. When the purchase order is paid and received, the status becomes 'Done'. If a cancel action occurs in the invoice or in the receipt of goods, the status becomes in exception."
+msgstr ""
+
