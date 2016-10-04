@@ -16,7 +16,7 @@ class VehicleReception(models.AbstractModel):
     pending = fields.Float(compute="_compute_pending", readonly=True, store=False)
 
     product_id = fields.Many2one('product.product', compute="_compute_product_id", readonly=True, store=False)
-    location_id = fields.Many2one('stock.location', readonly=True, related="contract_id.location_id")
+    location_id = fields.Many2one('stock.location')
 
     damaged_location = fields.Many2one('stock.location')
 
@@ -101,7 +101,7 @@ class VehicleReception(models.AbstractModel):
                 'package_id': op.package_id.id,
                 'lot_id': op.lot_id.id,
                 'sourceloc_id': op.location_id.id,
-                'destinationloc_id': op.location_dest_id.id,
+                'destinationloc_id': location_id.id,
                 'result_package_id': op.result_package_id.id,
                 'date': op.date,
                 'owner_id': op.owner_id.id,
