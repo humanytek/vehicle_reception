@@ -49,6 +49,8 @@ class VehicleReception(models.AbstractModel):
         self.stock_picking_id = self.env['stock.picking'].search([('origin', '=', self.contract_id.name), ('state', '=', 'assigned')], order='date', limit=1)
         if self.stock_picking_id:
             picking = [self.stock_picking_id.id]
+            for move in self.stock_picking_id.move_lines:
+                move.location_dest_id = self.location_id
             if self.delivered <= self.hired:
                 self._do_enter_transfer_details(picking, self.stock_picking_id, self.clean_kilos, self.location_id)
             else:
