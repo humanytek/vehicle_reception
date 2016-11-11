@@ -5,7 +5,7 @@ class VehicleReception(models.AbstractModel):
     _name = 'vehicle.reception'
 
     contract_id = fields.Many2one('purchase.order')
-    auxiliary_contract = fields.Many2one('purchase.order')
+    auxiliary_contract = fields.Many2one('purchase.order', related="contract_id.auxiliary_contract")
     contract_type = fields.Selection(readonly=True, related="contract_id.contract_type")
     partner_id = fields.Many2one('res.partner', readonly=True, related="contract_id.partner_id")
     street = fields.Char(readonly=True, related='partner_id.street')
@@ -46,30 +46,30 @@ class VehicleReception(models.AbstractModel):
 
     @api.multi
     def fun_transfer(self):
+        if self.contract_id.shipped:
+            return
         self.stock_picking_id = self.env['stock.picking'].search([('origin', '=', self.contract_id.name), ('state', '=', 'assigned')], order='date', limit=1)
         if self.stock_picking_id:
             picking = [self.stock_picking_id.id]
-            for move in self.stock_picking_id.move_lines:
-                move.location_dest_id = self.location_id
-            if self.delivered <= self.hired:
+            pending_ma = 1000*sum(move.product_uom_qty for move in self.stock_picking_id.move_lines)
+            if pending_ma >= self.clean_kilos:
                 self._do_enter_transfer_details(picking, self.stock_picking_id, self.clean_kilos, self.location_id)
             else:
-                self._do_enter_transfer_details(picking, self.stock_picking_id, self.clean_kilos + self.pending * 1000 , self.location_id)
-                self.auxiliary_contract = self.env['purchase.order'].create({'partner_id': self.contract_id.partner_id.id,
-                                                                             'location_id': self.contract_id.location_id.id,
-                                                                             'pricelist_id': self.contract_id.pricelist_id.id})
-                self.auxiliary_contract.contract_type = 'surplus'
-                self.auxiliary_contract.order_line = self.env['purchase.order.line'].create({
+                self._do_enter_transfer_details(picking, self.stock_picking_id, pending_ma, self.location_id)
+                self.contract_id.auxiliary_contract = self.env['purchase.order'].create({'partner_id': self.contract_id.partner_id.id,
+                                                                                         'location_id': self.contract_id.location_id.id,
+                                                                                         'pricelist_id': self.contract_id.pricelist_id.id})
+                self.contract_id.auxiliary_contract.contract_type = 'surplus'
+                self.contract_id.auxiliary_contract.order_line = self.env['purchase.order.line'].create({
                     'order_id': self.auxiliary_contract.id,
                     'product_id': self.contract_id.order_line[0].product_id.id,
                     'name': self.contract_id.order_line[0].name,
                     'date_planned': self.contract_id.order_line[0].date_planned,
                     'company_id': self.contract_id.order_line[0].company_id.id,
-                    'product_qty': (-self.pending),
+                    'product_qty': (self.clean_kilos - pending_ma)/1000,
                     'price_unit': self.contract_id.order_line[0].price_unit,
                     'product_uom': self.contract_id.order_line[0].product_uom.id,
                 })
-                self.fun_ship()
 
     @api.multi
     def fun_ship(self):
