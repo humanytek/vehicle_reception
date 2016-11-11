@@ -8,8 +8,9 @@ class VehicleReception(models.AbstractModel):
     auxiliary_contract = fields.Many2one('purchase.order')
     contract_type = fields.Selection(readonly=True, related="contract_id.contract_type")
     partner_id = fields.Many2one('res.partner', readonly=True, related="contract_id.partner_id")
-    street = fields.Char(readonly=True, related='partner_id.street')
+    street2 = fields.Char(readonly=True, related='partner_id.street2')
     contract_state = fields.Selection(readonly=True, related="contract_id.state")
+    active = fields.Boolean(default=True, string="Activo") 
 
     hired = fields.Float(compute="_compute_hired", readonly=True, store=False)
     delivered = fields.Float(compute="_compute_delivered", readonly=True, store=False)
